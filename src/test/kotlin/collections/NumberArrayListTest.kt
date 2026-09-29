@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class NumberArrayListTest {
 
@@ -25,6 +27,7 @@ class NumberArrayListTest {
         }
         assertEquals(expected = 10, actual = list.size)
     }
+
 
     @ParameterizedTest
     @MethodSource("mutableListSource")
@@ -53,7 +56,35 @@ class NumberArrayListTest {
         assertEquals(expected = 50, actual = list.get(50))
     }
 
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When element added to first position the it is in first position`(list: NumberMutableList){
+        repeat(100){
+            list.add(it, 50)
+        }
+        list.add(0,1000)
+        assertEquals(expected = 1000, actual = list.get(0))
+    }
 
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When element added to last position the it is in last position`(list: NumberMutableList){
+        repeat(100){
+            list.add(it,55)
+        }
+        list.add(100,1000)
+        assertEquals(expected = 1000, actual = list.get(100))
+    }
+
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When element added to first position then size increases by one`(list: NumberMutableList){
+        repeat(100){
+            list.add(it)
+        }
+        list.add(100,1000)
+        assertEquals(expected = 101, actual = list.size)
+    }
 
     @ParameterizedTest
     @MethodSource("mutableListSource")
@@ -74,6 +105,47 @@ class NumberArrayListTest {
         list.removeAt(50)
         assertEquals(expected = 51, actual = list.get(50))
     }
+
+
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When removed value 50 next value at this position`(list: NumberMutableList){
+        repeat(100){
+            list.add(it)
+        }
+        list.remove(50)
+        assertEquals(expected = 51, actual = list.get(50))
+    }
+
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When all elements are cleared the size is 0`(list: NumberMutableList){
+        repeat(100){
+            list.add(it)
+        }
+        list.clear()
+        assertEquals(expected = 0, actual = list.size)
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When list contains element then method returns true`(list: NumberMutableList){
+        repeat(100){
+            list.add(it)
+        }
+        assertTrue (list.contains(90))
+    }
+
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When list does not contains element then method returns false`(list: NumberMutableList){
+        repeat(100){
+            list.add(it)
+        }
+        assertFalse (list.contains(100))
+    }
+
 
 
 
