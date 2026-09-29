@@ -20,6 +20,10 @@ class NumberArrayList : NumberMutableList {
         size++
     }
 
+    override fun plus(number: Int) {
+        add(number)
+    }
+
     private fun growUp(){
         if (numbers.size == size) {
             val newArray = arrayOfNulls<Int>(numbers.size * 2)
@@ -48,6 +52,10 @@ class NumberArrayList : NumberMutableList {
         }
         size--
         numbers[size] = null
+    }
+
+    override fun minus(index: Int) {
+        removeAt(index)
     }
 
     override fun remove(number: Int) {

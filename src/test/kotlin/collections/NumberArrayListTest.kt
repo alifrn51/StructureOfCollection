@@ -51,7 +51,7 @@ class NumberArrayListTest {
     @MethodSource("mutableListSource")
     fun `When get 50th element then result is correct`(list: NumberMutableList){
         repeat(100){
-            list.add(it)
+            list + it
         }
         assertEquals(expected = 50, actual = list.get(50))
     }
@@ -92,7 +92,7 @@ class NumberArrayListTest {
         repeat(100){
             list.add(it)
         }
-        list.removeAt(50)
+        list - 50
         assertEquals(expected = 99, actual = list.size)
     }
 
