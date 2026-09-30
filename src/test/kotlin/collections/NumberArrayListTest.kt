@@ -1,6 +1,7 @@
 package collections
 
 import org.example.collections.NumberArrayList
+import org.example.collections.NumberLinkedList
 import org.example.collections.NumberMutableList
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -36,7 +37,7 @@ class NumberArrayListTest {
         repeat(10){
             list.add(it)
         }
-        assertEquals(expected = 5, actual = list.get(5))
+        assertEquals(expected = 5, actual = list[5])
     }
 
     @ParameterizedTest
@@ -54,7 +55,7 @@ class NumberArrayListTest {
         repeat(100){
             list + it
         }
-        assertEquals(expected = 50, actual = list.get(50))
+        assertEquals(expected = 50, actual = list[50])
     }
 
     @ParameterizedTest
@@ -103,7 +104,7 @@ class NumberArrayListTest {
         repeat(100){
             list.add(it)
         }
-        list.removeAt(50) // index 50: 49
+        list.removeAt(50)
         assertEquals(expected = 51, actual = list[50])
     }
 
@@ -222,7 +223,7 @@ class NumberArrayListTest {
 
     companion object{
         @JvmStatic
-        fun mutableListSource() = listOf(NumberArrayList())
+        fun mutableListSource() = listOf(NumberArrayList(), NumberLinkedList())
     }
 
 }
