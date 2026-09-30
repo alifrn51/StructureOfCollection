@@ -9,13 +9,6 @@ class NumberArrayList : NumberMutableList {
 
     override fun add(number: Int) {
         growUp()
-        if (numbers.size == size) {
-            val newArray = arrayOfNulls<Int>(numbers.size * 2)
-            for (index in numbers.indices) {
-                newArray[index] = numbers[index]
-            }
-            numbers = newArray
-        }
         numbers[size] = number
         size++
     }
@@ -24,32 +17,30 @@ class NumberArrayList : NumberMutableList {
         add(number)
     }
 
-    private fun growUp(){
+    private fun growUp() {
         if (numbers.size == size) {
             val newArray = arrayOfNulls<Int>(numbers.size * 2)
-            for (index in numbers.indices) {
-                newArray[index] = numbers[index]
-            }
+            System.arraycopy(numbers, 0, newArray, 0, size)
             numbers = newArray
         }
     }
-    override fun add(index: Int, number: Int)  {
+
+    override fun add(index: Int, number: Int) {
+        chackIndexOutOfBoundsForAdding(index)
         growUp()
-        for (i in size downTo index + 1){
-            numbers[i] = numbers[i - 1]
-        }
+        System.arraycopy(numbers, index, numbers, index + 1, size - index)
         numbers[index] = number
         size++
     }
 
     override fun get(index: Int): Int {
+        chackIndexOutOfBounds(index)
         return this.numbers[index]!!
     }
 
     override fun removeAt(index: Int) {
-        for (i in index until size - 1) {
-            numbers[i] = numbers[i + 1]
-        }
+        chackIndexOutOfBounds(index)
+        System.arraycopy(numbers, index+1, numbers, index, size - index -1)
         size--
         numbers[size] = null
     }
@@ -59,8 +50,8 @@ class NumberArrayList : NumberMutableList {
     }
 
     override fun remove(number: Int) {
-        for(index in 0 until size){
-            if(number == numbers[index]){
+        for (index in 0 until size) {
+            if (number == numbers[index]) {
                 removeAt(index)
             }
         }
@@ -72,11 +63,24 @@ class NumberArrayList : NumberMutableList {
     }
 
     override fun contains(number: Int): Boolean {
-        for (i in 0 until size){
-            if(number == numbers[i]){
+        for (i in 0 until size) {
+            if (number == numbers[i]) {
                 return true
             }
         }
         return false
     }
+
+    private fun chackIndexOutOfBounds(index: Int) {
+        if (index !in 0..<size) {
+            throw IndexOutOfBoundsException("Exception Index: $index, Size: $size")
+        }
+    }
+
+    private fun chackIndexOutOfBoundsForAdding(index: Int) {
+        if (index !in 0..size) {
+            throw IndexOutOfBoundsException("Exception Index: $index, Size: $size")
+        }
+    }
+
 }
