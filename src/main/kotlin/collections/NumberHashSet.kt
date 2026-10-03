@@ -14,7 +14,9 @@ class NumberHashSet : NumberMutableSet {
             increasesArray()
         }
         return add(number, elements).also {
-            size++
+            if(it){
+                size++
+            }
         }
     }
 
