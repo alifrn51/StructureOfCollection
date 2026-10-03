@@ -72,7 +72,6 @@ class NumberLinkedList : NumberMutableList {
             return node!!
         }
 
-
     }
 
     private fun unlink(node: Node){

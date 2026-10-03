@@ -1,19 +1,24 @@
 package org.example
 
-import org.example.collections.NumberArrayList
-import org.example.collections.NumberMutableList
-import kotlin.time.measureTime
+import org.example.collections.NumberHashSet
+import kotlin.random.Random
 
 fun main() {
 
-    val list: NumberMutableList = NumberArrayList()
-
-    val time = measureTime {
-        repeat(100_000_000){
-            list.add(it)
-        }
+    val numbers = NumberHashSet()
+    repeat(10){
+        numbers.add(Random.nextInt(70,1000))
     }
 
-    println(time)
+    numbers.elements.forEach(::println)
 
+    while (true){
+
+        print("ENter: ")
+        val num = readln().toInt()
+
+        println("Contains: ${numbers.remove(num)}")
+
+        numbers.elements.forEach(::println)
+    }
 }
