@@ -1,6 +1,6 @@
 package org.example.collections
 
-interface NumberMutableList {
+interface MyMutableList {
     val size: Int
     fun add(number: Int)
     operator fun plus(number: Int)

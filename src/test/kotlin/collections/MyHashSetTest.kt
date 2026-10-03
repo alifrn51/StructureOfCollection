@@ -1,13 +1,13 @@
 package collections
 
 import org.example.collections.Item
-import org.example.collections.NumberHashSet
+import org.example.collections.MyHashSet
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-class NumberHashSetTest {
+class MyHashSetTest {
 
-    private val numbers = NumberHashSet<Item>()
+    private val numbers = MyHashSet<Item>()
 
     @Test
     fun `When added 100 elements Then size 100`() {

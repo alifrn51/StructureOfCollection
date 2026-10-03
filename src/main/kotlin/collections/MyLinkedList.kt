@@ -1,6 +1,6 @@
 package org.example.collections
 
-class NumberLinkedList : NumberMutableList {
+class MyLinkedList : MyMutableList {
 
     private var first: Node? = null
     private var last: Node? = null

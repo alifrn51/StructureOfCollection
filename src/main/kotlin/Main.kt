@@ -1,12 +1,12 @@
 package org.example
 
 import org.example.collections.Item
-import org.example.collections.NumberHashSet
+import org.example.collections.MyHashSet
 import kotlin.random.Random
 
 fun main() {
 
-    val numbers = NumberHashSet<Item>()
+    val numbers = MyHashSet<Item>()
     repeat(10){
         numbers.add(Item(Random.nextInt(70,1000)))
     }

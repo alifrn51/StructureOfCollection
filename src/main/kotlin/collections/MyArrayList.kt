@@ -1,6 +1,6 @@
 package org.example.collections
 
-class NumberArrayList : NumberMutableList {
+class MyArrayList : MyMutableList {
 
     private var numbers = arrayOfNulls<Int>(10)
 
