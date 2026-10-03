@@ -2,33 +2,33 @@ package org.example.collections
 
 import kotlin.math.abs
 
-class NumberHashSet : NumberMutableSet {
+class NumberHashSet<T> : NumberMutableSet<T> {
 
-    var elements = arrayOfNulls<Node>(INITIAL_CAPACITY)
+    var elements = arrayOfNulls<Node<T>>(INITIAL_CAPACITY)
 
     override var size: Int = 0
         private set
 
-    override fun add(number: Int): Boolean {
+    override fun add(element: T): Boolean {
         if (size >= elements.size * LOAD_FACTOR) {
             increasesArray()
         }
-        return add(number, elements).also {
+        return add(element, elements).also {
             if(it){
                 size++
             }
         }
     }
 
-    private fun add(number: Int, array: Array<Node?>): Boolean {
-        val newElement = Node(number)
-        val position = getElementPosition(number, array.size)
+    private fun add(element: T, array: Array<Node<T>?>): Boolean {
+        val newElement = Node(element)
+        val position = getElementPosition(element, array.size)
         var existedElement = array[position]
         if (existedElement == null) {
             array[position] = newElement
             return true
         } else {
-            if (existedElement.item == number) {
+            if (existedElement.item == element) {
                 return false
             }
             while (true) {
@@ -42,12 +42,12 @@ class NumberHashSet : NumberMutableSet {
         }
     }
 
-    private fun getElementPosition(element: Int, arraySize: Int): Int {
-        return abs(element % arraySize)
+    private fun getElementPosition(element: T, arraySize: Int): Int {
+        return abs(element.hashCode() % arraySize)
     }
 
     private fun increasesArray() {
-        val newArray = arrayOfNulls<Node>(elements.size * 2)
+        val newArray = arrayOfNulls<Node<T>>(elements.size * 2)
         for (node in elements) {
             var currentElement = node
             while (currentElement != null) {
@@ -59,19 +59,19 @@ class NumberHashSet : NumberMutableSet {
         elements = newArray
     }
 
-    override fun remove(number: Int) {
-        val position = getElementPosition(number, elements.size)
+    override fun remove(element: T) {
+        val position = getElementPosition(element, elements.size)
         val existedElement = elements[position] ?: return
-        if(existedElement.item == number){
+        if(existedElement.item == element){
             elements[position] = existedElement.next
             size--
             return
         }
 
-        var before: Node? = existedElement
+        var before: Node<T>? = existedElement
         while (before?.next != null){
             val removingElement = before.next
-            if(removingElement?.item == number){
+            if(removingElement?.item == element){
                 before.next = removingElement.next
                 size --
                 return
@@ -87,11 +87,11 @@ class NumberHashSet : NumberMutableSet {
         size = 0
     }
 
-    override fun contains(number: Int): Boolean {
-        val position = getElementPosition(number, elements.size)
+    override fun contains(element: T): Boolean {
+        val position = getElementPosition(element, elements.size)
         var existedElement = elements[position]
         while (existedElement != null) {
-            if (existedElement.item == number) {
+            if (existedElement.item == element) {
                 return true
             } else {
                 existedElement = existedElement.next
@@ -100,9 +100,9 @@ class NumberHashSet : NumberMutableSet {
         return false
     }
 
-    data class Node(
-        val item: Int,
-        var next: Node? = null
+    data class Node<T>(
+        val item: T,
+        var next: Node<T>? = null
     )
 
     companion object {
