@@ -89,7 +89,7 @@ class MyArrayList<T> : MyMutableList<T> {
         }
     }
 
-    override fun iterator(): Iterator<T> = object : Iterator<T> {
+    override fun iterator(): MutableIterator<T> = object : MutableIterator<T> {
         private val currentModeCound = modeCound
         private var nextIndex = 0
         override fun next(): T {
@@ -98,6 +98,9 @@ class MyArrayList<T> : MyMutableList<T> {
         }
 
         override fun hasNext(): Boolean = nextIndex < size
+        override fun remove() {
+            TODO("Not yet implemented")
+        }
     }
 
     companion object{

@@ -148,7 +148,7 @@ class MyLinkedList<T> : MyMutableList<T> {
         }
     }
 
-    override fun iterator(): Iterator<T> = object : Iterator<T> {
+    override fun iterator(): MutableIterator<T> = object : MutableIterator<T> {
         private val currentModeCound = modeCound
         private var nextNode = first
         override fun next(): T {
@@ -158,6 +158,10 @@ class MyLinkedList<T> : MyMutableList<T> {
         }
 
         override fun hasNext(): Boolean = nextNode != null
+
+        override fun remove() {
+            TODO("Not yet implemented")
+        }
     }
 
     private class Node<T>(

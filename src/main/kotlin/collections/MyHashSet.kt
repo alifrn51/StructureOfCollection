@@ -109,7 +109,7 @@ class MyHashSet<T> : MyMutableSet<T> {
         val item: T, var next: Node<T>? = null
     )
 
-    override fun iterator(): Iterator<T> = object : Iterator<T> {
+    override fun iterator(): MutableIterator<T> = object : MutableIterator<T> {
         private val currentModeCound = modeCound
         private var nodeIndex = 0
         private var nextNode = elements[nodeIndex]
@@ -127,6 +127,9 @@ class MyHashSet<T> : MyMutableSet<T> {
         }
 
         override fun hasNext(): Boolean = nextIndex < size
+        override fun remove() {
+            TODO("Not yet implemented")
+        }
     }
 
     companion object {
