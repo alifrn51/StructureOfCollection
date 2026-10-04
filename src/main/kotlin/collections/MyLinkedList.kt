@@ -4,12 +4,13 @@ class MyLinkedList<T> : MyMutableList<T> {
 
     private var first: Node<T>? = null
     private var last: Node<T>? = null
+    private var modeCound = 0
 
     override var size: Int = 0
         private set
 
     override fun add(element: T): Boolean {
-
+        modeCound++
         val prevLast = last
         last = Node(prevLast, element)
 
@@ -23,6 +24,7 @@ class MyLinkedList<T> : MyMutableList<T> {
     }
 
     override fun add(index: Int, element: T) {
+        modeCound++
         chackIndexOutOfBoundsForAdding(index)
         if (index == size) {
             add(element)
@@ -76,6 +78,7 @@ class MyLinkedList<T> : MyMutableList<T> {
     }
 
     private fun unlink(node: Node<T>) {
+        modeCound++
         val before = node.prev
         val after = node.next
         before?.next = after
@@ -92,6 +95,7 @@ class MyLinkedList<T> : MyMutableList<T> {
 
 
     override fun removeAt(index: Int) {
+        modeCound++
         chackIndexOutOfBounds(index)
         val node = getNode(index)
         unlink(node)
@@ -103,7 +107,7 @@ class MyLinkedList<T> : MyMutableList<T> {
     }
 
     override fun remove(element: T) {
-
+        modeCound++
         var node = first
         repeat(size) {
             if (node?.item == element) {
@@ -117,6 +121,7 @@ class MyLinkedList<T> : MyMutableList<T> {
     }
 
     override fun clear() {
+        modeCound++
         first = null
         last = null
         size = 0
@@ -144,9 +149,12 @@ class MyLinkedList<T> : MyMutableList<T> {
     }
 
     override fun iterator(): Iterator<T> = object : Iterator<T> {
+        private val currentModeCound = modeCound
         private var nextNode = first
-        override fun next(): T = nextNode?.item!!.also {
-            nextNode = nextNode?.next
+        override fun next(): T {
+            if(currentModeCound != modeCound) throw ConcurrentModificationException()
+            return nextNode?.item!!.also {
+            nextNode = nextNode?.next}
         }
 
         override fun hasNext(): Boolean = nextNode != null
