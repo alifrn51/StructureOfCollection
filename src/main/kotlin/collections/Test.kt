@@ -1,7 +1,5 @@
-package org.example
+package org.example.collections
 
-import org.example.collections.Item
-import org.example.collections.MyHashSet
 import kotlin.random.Random
 
 fun main() {
@@ -11,15 +9,12 @@ fun main() {
         numbers.add(Item(Random.nextInt(70,1000)))
     }
 
-    numbers.elements.forEach(::println)
+    numbers.forEach(::println)
 
     while (true){
-
-        print("ENter: ")
+        print("Enter: ")
         val num = readln().toInt()
-
         println("Contains: ${numbers.remove(Item(num))}")
-
-        numbers.elements.forEach(::println)
+        numbers.forEach(::println)
     }
 }

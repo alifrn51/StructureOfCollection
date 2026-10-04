@@ -8,17 +8,18 @@ class MyLinkedList<T> : MyMutableList<T> {
     override var size: Int = 0
         private set
 
-    override fun add(element: T) {
+    override fun add(element: T): Boolean {
 
         val prevLast = last
         last = Node(prevLast, element)
 
         if (prevLast == null) {
             first = last
-        }else{
+        } else {
             prevLast.next = last
         }
         size++
+        return true
     }
 
     override fun add(index: Int, element: T) {
@@ -28,15 +29,15 @@ class MyLinkedList<T> : MyMutableList<T> {
             return
         }
         if (index == 0) {
-            val node = Node(null,element, first)
-            first?.prev  = node
+            val node = Node(null, element, first)
+            first?.prev = node
             first = node
             size++
             return
         }
         val before = getNode(index - 1)
         val after = before.next
-        val node = Node(before,element, after)
+        val node = Node(before, element, after)
         before.next = node
         after?.prev = node
         size++
@@ -58,13 +59,13 @@ class MyLinkedList<T> : MyMutableList<T> {
         if (index == 0) return first!!
         if (index == size - 1) return last!!
 
-        if(index < size / 2){
+        if (index < size / 2) {
             var node = first
             repeat(index) {
                 node = node?.next
             }
             return node!!
-        }else{
+        } else {
             var node = last
             repeat(size - index - 1) {
                 node = node?.prev
@@ -74,16 +75,16 @@ class MyLinkedList<T> : MyMutableList<T> {
 
     }
 
-    private fun unlink(node: Node<T>){
+    private fun unlink(node: Node<T>) {
         val before = node.prev
         val after = node.next
         before?.next = after
         after?.prev = before
 
-        if(after == null){
+        if (after == null) {
             last = before
         }
-        if(before == null){
+        if (before == null) {
             first = after
         }
         size--
@@ -140,6 +141,15 @@ class MyLinkedList<T> : MyMutableList<T> {
         if (index !in 0..size) {
             throw IndexOutOfBoundsException("Exception Index: $index, Size: $size")
         }
+    }
+
+    override fun iterator(): Iterator<T> = object : Iterator<T> {
+        private var nextNode = first
+        override fun next(): T = nextNode?.item!!.also {
+            nextNode = nextNode?.next
+        }
+
+        override fun hasNext(): Boolean = nextNode != null
     }
 
     private class Node<T>(

@@ -14,7 +14,7 @@ class MyHashSet<T> : MyMutableSet<T> {
             increasesArray()
         }
         return add(element, elements).also {
-            if(it){
+            if (it) {
                 size++
             }
         }
@@ -62,20 +62,20 @@ class MyHashSet<T> : MyMutableSet<T> {
     override fun remove(element: T) {
         val position = getElementPosition(element, elements.size)
         val existedElement = elements[position] ?: return
-        if(existedElement.item == element){
+        if (existedElement.item == element) {
             elements[position] = existedElement.next
             size--
             return
         }
 
         var before: Node<T>? = existedElement
-        while (before?.next != null){
+        while (before?.next != null) {
             val removingElement = before.next
-            if(removingElement?.item == element){
+            if (removingElement?.item == element) {
                 before.next = removingElement.next
-                size --
+                size--
                 return
-            }else{
+            } else {
                 before = before.next
             }
         }
@@ -101,12 +101,30 @@ class MyHashSet<T> : MyMutableSet<T> {
     }
 
     data class Node<T>(
-        val item: T,
-        var next: Node<T>? = null
+        val item: T, var next: Node<T>? = null
     )
+
+    override fun iterator(): Iterator<T> = object : Iterator<T> {
+        private var nodeIndex = 0
+        private var nextNode = elements[nodeIndex]
+        private var nextIndex = 0
+
+        override fun next(): T {
+            while (nextNode == null){
+                nextNode = elements[++nodeIndex]
+            }
+            return nextNode?.item!!.also {
+                nextIndex++
+                nextNode = nextNode?.next
+            }
+        }
+
+        override fun hasNext(): Boolean = nextIndex < size
+    }
 
     companion object {
         private const val INITIAL_CAPACITY = 16
         private const val LOAD_FACTOR = 0.75f
     }
+
 }
